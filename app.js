@@ -1,4 +1,5 @@
 var express = require('express');
+var fortune = require('./lib/fortune.js');
 
 var app = express();
 
@@ -10,9 +11,12 @@ var handlebars = require('express3-handlebars')
 app.engine('handlebars', handlebars.engine);
 app.set('view engine','handlebars');
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/',function(req,res){
-	res.type('text/plain');
-	res.send('Meadowlark Travel');
+	//res.type('text/plain');
+	//res.send('Meadowlark Travel');
+	res.render('home');
 });
 app.get('/about/contact',function(req,res){
 	res.type('text/plain');
@@ -22,29 +26,32 @@ app.get('/about/directions', function(req,res){
 	res.type('text/plain');
 	res.send('directions');
 });
+app.get('/about', function(req,res){
+	//res.type('text/plain');
+	//res.send('About Meadowlark Travel');
+	res.render('about',{fortune: fortune.getFortune()});
+});
 //the order matters, so about* has to be the last one of the abouts
 app.get('/about*',function(req,res){
 	res.type('text/plain');
 	res.send('about whatever');
 });
-app.get('/about', function(req,res){
-	res.type('text/plain');
-	res.send('About Meadowlark Travel');
-});
 
 //custom 404 page
 app.use(function(req,res){
-	res.type('text/plain');
 	res.status(404);
-	res.send('404 - Not Found');
+	//res.type('text/plain');
+	//res.send('404 - Not Found');
+	res.render('404');
 });
 
 //custom 500 page
 app.use(function(err, req, res, next){
 	console.error(err.stack);
-	res.type('text/plain');
 	res.status(500);
-	res.send('500 - Server Error');
+	//res.type('text/plain');
+	//res.send('500 - Server Error');
+	res.render('500');
 });
 
 app.listen(app.get('port'), function (){
