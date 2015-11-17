@@ -1,3 +1,3 @@
-# meadowlark-angular-tutorial
+# meadowlark-node-express-tutorial
 
-Express tutorial app. It is a travel app
+**Node Express** tutorial app. It is a travel app. Not finished!
